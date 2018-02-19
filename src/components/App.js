@@ -9,6 +9,7 @@ class App extends Component {
     text : ''
   }
 
+  // Fetch if the driver is world champion or not
   fetchIfWorldChampion(championDrivers, driverId) {
     if (championDrivers.length > 0) {
       return (championDrivers.findIndex(champion => champion.driverId===driverId) >= 0)
@@ -18,10 +19,12 @@ class App extends Component {
     }
   }
 
+  // Check if driver record already exists in the state
   checkIfDriverExists(driverId) {
     return (this.state.driversList.findIndex(driver => driver.driverId===driverId));
   }
 
+  // Parse received data and update state accordingly
   parseData(allDrivers, championDrivers) {
     if (allDrivers.length > 0) {
       for(let i = 0; i < allDrivers.length; i++) {
@@ -37,6 +40,7 @@ class App extends Component {
           }));
         }
         else {
+          // Update if driver became world champion in later races
           if (this.state.driversList[index].isWorldChampion === false && isWorldChampion) {
             const driversList = this.state.driversList;
             driversList[index].isWorldChampion = isWorldChampion;
@@ -49,12 +53,14 @@ class App extends Component {
     }
   }
 
+  // Apply filter and returns consolidated list
   getVisibleDriverList() {
     return this.state.driversList.filter((driver) => {
       return (driver.fullName.toLowerCase()).includes((this.state.text.toLowerCase()));
     });
   }
 
+  // Render driver list on browser
   renderDriverDetails() {
     const driversList = this.getVisibleDriverList();
 
@@ -68,6 +74,7 @@ class App extends Component {
     })
   }
 
+  // Update state according to text filter
   onTextChange = (e) => {
     const text = e.target.value;
     this.setState({
